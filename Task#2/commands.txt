@@ -1,0 +1,52 @@
+1- start hdfs :
+	start yarn, namenode, secondary namenode
+
+
+2- create folder local_dir_flume_agent :
+	mkdir /home/msuser01/Desktop/local_dir_flume_agent
+
+3- put configuration files of flume : 
+	local_dir_flume_agent.conf, flume-env.sh
+
+4- create spool directory:
+	/home/msuser01/Desktop/spool_dir	
+	
+5- cofigure local_dir_flume_agent.conf :
+	local_dir_flume_agent.sources = source_1
+	local_dir_flume_agent.channels = channel_1
+	local_dir_flume_agent.sinks = hdfssink_1
+
+	local_dir_flume_agent.sources.source_1.type = spooldir
+	local_dir_flume_agent.sources.source_1.channels = channel_1
+
+	# spool source config
+	local_dir_flume_agent.sources.source_1.spoolDir = /home/msuser01/Desktop/spool_dir
+	local_dir_flume_agent.sources.source_1.batchSize = 250
+	local_dir_flume_agent.sources.source_1.basenameHeader = true
+	local_dir_flume_agent.sources.source_1.deletePolicy = immediate
+	local_dir_flume_agent.sources.source_1.fileHeader = true
+	local_dir_flume_agent.sources.source_1.deserializer = org.apache.flume.sink.solr.morphline.BlobDeserializer$Builder
+
+
+	# Initializes a memory channel with default configuration
+	local_dir_flume_agent.channels.channel_1.type = memory
+
+
+	# HDFS Sink
+	local_dir_flume_agent.sinks.hdfssink_1.type = hdfs
+	local_dir_flume_agent.sinks.hdfssink_1.channel = channel_1
+	local_dir_flume_agent.sinks.hdfssink_1.hdfs.path = /flume_test_local_dir
+	local_dir_flume_agent.sinks.hdfssink_1.hdfs.filePrefix = local_dir_flume_agent_ 
+
+
+6- mkdir in hdfs:
+	hadoop dfs -mkdir -p /flume_test
+
+7- run flume engine to specific agent :
+	cd /usr/local/flume/bin
+	flume-ng agent -f /home/msuser01/Desktop/local_dir_flume_agent/local_dir_flume_agent.conf -n local_dir_flume_agent
+
+8- check output:
+	hadoop dfs -ls /flume_test
+
+
