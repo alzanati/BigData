@@ -40,13 +40,12 @@
 
 
 6- mkdir in hdfs:
-	hadoop dfs -mkdir -p /flume_test
+	hadoop dfs -mkdir -p /flume_test_local_dir
 
 7- run flume engine to specific agent :
-	cd /usr/local/flume/bin
 	flume-ng agent -f /home/msuser01/Desktop/local_dir_flume_agent/local_dir_flume_agent.conf -n local_dir_flume_agent
 
 8- check output:
-	hadoop dfs -ls /flume_test
+	hadoop dfs -ls /flume_test_local_dir
 
 
