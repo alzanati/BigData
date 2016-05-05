@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<html>
+    <head>
+        <title> StartY </title>
+        <link rel="stylesheet" href="main.css" title="main">
+    </head>
+    
+    <body>
+        <h1> Welcome To StartY </h1>
+        <a href="query_page.html" target="_parent">
+            <button type="button" onclick="queryButtonClicked()" id="queryButton"> Query Page </button>
+        </a>
+    </body>
+    
+    <script>
+        var count = 0;
+        localStorage.setItem("Ah", 1);
+        function queryButtonClicked() {
+            "use strict";
+            var property = document.getElementById("queryButton");
+            if (count === 0) {
+                property.style.backgroundColor = '#4CAF50';
+            } else {
+                property.style.backgroundColor = '#008CBA';
+                count = 0;
+            }
+            delay(200);
+        }
+        
+        function delay(ms) {
+            ms += new Date().getTime();
+            while (new Date() < ms){}
+        }
+    </script>
+    
+</html>
